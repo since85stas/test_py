@@ -32,8 +32,11 @@ def create_pressure_plot(pressure_list, plot_name, recreate):
     plt.plot(x,y)
 
     for pressure in pressure_list:
-        if (pressure[2] > 0):
-            plt.scatter(pressure[0], pressure[1], color= "r", s=8)
+        if (pressure[2] != 0):
+            if (pressure[2] == 1):
+                plt.scatter(pressure[0], pressure[1], color= "r", s=8)
+            elif (pressure[2] == -1):
+                plt.scatter(pressure[0], pressure[1], color="g", s=8)
     # (fig, ax) = plt.subplots()
     # ax = fig.add_subplot("111")
 

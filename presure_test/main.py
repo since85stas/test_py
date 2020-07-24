@@ -9,6 +9,7 @@ print("init")
 
 # string = "xx.07.20"
 files_list = ["16.07.20","17.07.20", "20.07.20"]
+# files_list = ["15.07.20"]
 # files_list = list()
 # for i in range (14, 16):
 #    file = string.replace("xx" , str(i))
@@ -20,7 +21,7 @@ for name in files_list:
    # pressure_null = nullify_values(pressure)
    # presure_rain = set_rain_values( ( (450.0, 550.0),), 1, pressure_null)
    presure_rain = generate_init_data(pressure)
-   # create_plot(presure_rain, name)
+   # create_pressure_plot(presure_rain, name, True)
    all_press.extend(presure_rain)
 
 # create_plot(all_press, "all_pressure.png")

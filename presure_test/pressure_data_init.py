@@ -26,7 +26,7 @@ def nullify_values(pressures_list):
 def set_rain_values(ranges, value, pressure_list):
     for pressure in pressure_list:
         if (is_in_many_range(ranges, pressure[0])):
-            pressure[2] = 1
+            pressure[2] = value
 
     return pressure_list
 
