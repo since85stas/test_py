@@ -8,7 +8,7 @@ def generate_init_data(pressures):
 
     # записываем 1 в заданный интервал по времени
     presure_rain = set_rain_values(((450.0, 550.0),), 1, pressure_null)
-    # presure_rain = set_rain_values(((1050.0, 1150.0),), 1, pressure_null)
+    presure_rain = set_rain_values(((1050.0, 1150.0),), 1, pressure_null)
     return presure_rain
 
 def load_pressures(filename):
@@ -33,7 +33,6 @@ def set_rain_values(ranges, value, pressure_list):
     for pressure in pressure_list:
         if (is_in_many_range(ranges, pressure[0])):
             pressure[2] = value
-
     return pressure_list
 
 # проверяем попадает ли значение в интервал
@@ -57,5 +56,13 @@ def generate_press_vectors_list(pressure_list, points_num):
         new_int = list()
         for point in full_int:
             new_int.append(point[1])
+        # normal = normalize_interv(new_int)
         interval_list.append(new_int)
     return interval_list
+
+# так как нам важно относит изменение считаем каждый интревал начинается с 0, и делим на 1000, чтобы получить значения от 0 до 1
+def normalize_interv(intervs):
+    first_val = intervs[0]
+    for i in range(0, len(intervs)-1):
+        intervs[i] = (intervs[i] - first_val)/1000
+    return intervs

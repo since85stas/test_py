@@ -3,7 +3,8 @@ from time import time
 from presure_test.plot_functions import  create_pressure_plot, create_sin, create_weight_plot
 from presure_test.pressure_data_init import load_pressures, generate_pressure_interv,\
    generate_press_vectors_list, generate_init_data
-from presure_test.neural_functions import get_interval_weight, classify_svc_lin, get_intervals_weights
+from presure_test.neural_functions import get_interval_weight, classify_svc_lin, get_intervals_weights, classify_svc_rbf
+from presure_test.keras_test import classify_keras_test
 
 print("init")
 
@@ -56,7 +57,8 @@ weights = get_intervals_weights(pressure_interv)
 
 t0 = time()
 # обучаем сетку
-clf = classify_svc_lin(press_vector_list, weights)
+# clf = classify_svc_lin(press_vector_list, weights)
+clf = classify_keras_test(press_vector_list, weights)
 print ("training time:", round(time()-t0, 3), "s")
 
 # данные для проверки нейросетки
@@ -76,7 +78,8 @@ pred = clf.predict(test_press_vector_list)
 print ("pred time:", round(time()-t0, 3), "s")
 
 for i in range(0, len(pred)-1):
-   print(str(goal_weights[i]) + " " + str(pred[i]))
+   pred[i] = pred[i]
+   # print(str(goal_weights[i]) + " " + str(pred[i]))
 
 create_weight_plot(goal_weights, "weight", False)
 create_weight_plot(pred, "weight", False)

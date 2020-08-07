@@ -9,20 +9,10 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter, AutoMinorLoca
 
 
 def create_pressure_plot(pressure_list, plot_name, recreate):
-    x_min = 0.0;
-    x_max = 1500.0
-    y_min = 800.0;
-    y_max = 1000.0
-
     majorLocator = MultipleLocator(100)
     # Автоматический подбор промежуточных делений. Количество созданных делений равно n-1
     minorLocator = AutoMinorLocator(10)
 
-    # Plot the decision boundary. For that, we will assign a color to each
-    # point in the mesh [x_min, m_max]x[y_min, y_max].
-    h = 100  # step size in the mesh
-    # xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
-    # plt.pcolormesh(xx, yy, Z, cmap=pl.cm.seismic)
     x = list()
     y = list()
     for i in range(0, len(pressure_list)):
