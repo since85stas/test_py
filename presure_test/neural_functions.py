@@ -26,9 +26,13 @@
 # получаем выса интервала
 def get_interval_weight(interval):
     weight = 0
-    for point in interval:
-        if (point[2]!=0):
-            weight += point[2]
+    # for point in interval:
+    #     if (point[2]!=0):
+    #         weight += point[2]
+    num = int(len(interval)/2)
+    goal = interval[num][2]
+    if (goal == 1):
+        return 1
     return weight
 
 # получаем массив весов по массиву интервалов

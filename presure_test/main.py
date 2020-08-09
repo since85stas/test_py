@@ -4,7 +4,7 @@ from presure_test.plot_functions import  create_pressure_plot, create_sin, creat
 from presure_test.pressure_data_init import load_pressures, generate_pressure_interv,\
    generate_press_vectors_list, generate_init_data
 from presure_test.neural_functions import get_interval_weight, get_intervals_weights
-from presure_test.keras_test import classify_keras_test_csv, classify_keras
+from presure_test.keras_test import classify_keras_test_csv, classify_keras, test_diff_model_shapes
 
 print("init")
 
@@ -75,10 +75,10 @@ test_press_vector_list = generate_press_vectors_list(test_press, interv_width)
 t0 = time()
 # получаем предсказываемые веса
 # pred = clf.predict(test_press_vector_list)
-classify_keras(features_train=press_vector_list,
+test_diff_model_shapes(features_train=press_vector_list,
                labels_train=weights,
                features_test=test_press_vector_list,
-               labels_test=test_press_vector_list,
+               labels_test=goal_weights,
                num_inp=interv_width
                )
 print ("pred time:", round(time()-t0, 3), "s")
