@@ -3,8 +3,8 @@ from time import time
 from presure_test.plot_functions import  create_pressure_plot, create_sin, create_weight_plot
 from presure_test.pressure_data_init import load_pressures, generate_pressure_interv,\
    generate_press_vectors_list, generate_init_data
-from presure_test.neural_functions import get_interval_weight, classify_svc_lin, get_intervals_weights, classify_svc_rbf
-from presure_test.keras_test import classify_keras_test
+from presure_test.neural_functions import get_interval_weight, get_intervals_weights
+from presure_test.keras_test import classify_keras_test_csv, classify_keras
 
 print("init")
 
@@ -55,11 +55,11 @@ press_vector_list = generate_press_vectors_list(all_press, interv_width)
 # получаем вес для каждого интервала - сумма всех ненулевых згачений дождя в интервале
 weights = get_intervals_weights(pressure_interv)
 
-t0 = time()
-# обучаем сетку
-# clf = classify_svc_lin(press_vector_list, weights)
-clf = classify_keras_test(press_vector_list, weights)
-print ("training time:", round(time()-t0, 3), "s")
+# t0 = time()
+# # обучаем сетку
+# # clf = classify_svc_lin(press_vector_list, weights)
+# clf = classify_keras_test_csv(press_vector_list, weights)
+# print ("training time:", round(time()-t0, 3), "s")
 
 # данные для проверки нейросетки
 test_press = load_pressures("pressure/15.07.20 .txt")
@@ -74,14 +74,21 @@ test_press_vector_list = generate_press_vectors_list(test_press, interv_width)
 
 t0 = time()
 # получаем предсказываемые веса
-pred = clf.predict(test_press_vector_list)
+# pred = clf.predict(test_press_vector_list)
+classify_keras(features_train=press_vector_list,
+               labels_train=weights,
+               features_test=test_press_vector_list,
+               labels_test=test_press_vector_list,
+               num_inp=interv_width
+               )
 print ("pred time:", round(time()-t0, 3), "s")
 
-for i in range(0, len(pred)-1):
-   pred[i] = pred[i]
-   # print(str(goal_weights[i]) + " " + str(pred[i]))
 
-create_weight_plot(goal_weights, "weight", False)
-create_weight_plot(pred, "weight", False)
+# for i in range(0, len(pred)-1):
+#    pred[i] = pred[i]
+#    # print(str(goal_weights[i]) + " " + str(pred[i]))
+#
+# create_weight_plot(goal_weights, "weight", False)
+# create_weight_plot(pred, "weight", False)
 # create_sin()
 

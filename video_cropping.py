@@ -39,7 +39,7 @@ def crop_file(file):
     file_audio_ext = file_name_audio[:len(file_name_audio) - 1]
     out_str = "".join(file_audio_ext) + ".wav"
 
-    ffmpeg_extract_subclip(file_name, dur - 60, dur, targetname=file_name_cropped)
+    ffmpeg_extract_subclip(file_name, dur - 45, dur, targetname=file_name_cropped)
     ffmpeg_extract_audio(file_name_cropped, out_str)
     print("cropped")
 

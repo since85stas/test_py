@@ -1,28 +1,28 @@
 
-from sklearn.naive_bayes import GaussianNB
-from sklearn import svm
-from sklearn import svm
-
-def classify_svc_lin(features_train, labels_train):
-
-    ### create classifier
-    # clf = GaussianNB()
-    clf = svm.SVC(kernel="linear")
-
-    ### fit the classifier on the training features and labels
-    clf.fit(features_train, labels_train)
-    return clf
-
-def classify_svc_rbf(features_train, labels_train):
-
-    ### create classifier
-    # clf = GaussianNB()
-    clf = svm.SVR()
-
-    ### fit the classifier on the training features and labels
-    clf.fit(features_train, labels_train)
-    return clf
-
+# from sklearn.naive_bayes import GaussianNB
+# from sklearn import svm
+# from sklearn import svm
+#
+# def classify_svc_lin(features_train, labels_train):
+#
+#     ### create classifier
+#     # clf = GaussianNB()
+#     clf = svm.SVC(kernel="linear")
+#
+#     ### fit the classifier on the training features and labels
+#     clf.fit(features_train, labels_train)
+#     return clf
+#
+# def classify_svc_rbf(features_train, labels_train):
+#
+#     ### create classifier
+#     # clf = GaussianNB()
+#     clf = svm.SVR()
+#
+#     ### fit the classifier on the training features and labels
+#     clf.fit(features_train, labels_train)
+#     return clf
+#
 # получаем выса интервала
 def get_interval_weight(interval):
     weight = 0
