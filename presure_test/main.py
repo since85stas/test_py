@@ -18,12 +18,25 @@ print("init")
 #    files_list.append(file)
 
 # имена файлов из которых берем информацию для обучения
-files_list = ["16.07.20","17.07.20", "20.07.20"]
+files_list = ["16.07.20",
+              "17.07.20",
+              "20.07.20",
+              "22.07.20",
+              "27.07.20",
+              "28.07.20",
+              "29.07.20",
+              "30.07.20",
+              "31.07.20",
+              "03.08.20",
+              "04.08.20",
+              "05.08.20",
+              "06.08.20"
+              ]
 all_press = list()
 
 for name in files_list:
    # считываем файл получаем массив из элементов типа [время, давление, дождь]
-   pressure = load_pressures("pressure/" + name + " .txt")
+   pressure = load_pressures( name + " .txt")
 
    # подготавливаем данные: обнуляем данные о дожде и записываем в нужные интервалы значения
    presure_rain = generate_init_data(pressure)
@@ -63,7 +76,7 @@ weights = get_intervals_weights(pressure_interv)
 # print ("training time:", round(time()-t0, 3), "s")
 
 # данные для проверки нейросетки
-test_press = load_pressures("pressure/15.07.20 .txt")
+test_press = load_pressures("15.07.20 .txt")
 test_rain = generate_init_data(test_press)
 test_interv = generate_pressure_interv(test_rain, interv_width)
 
@@ -76,12 +89,23 @@ test_press_vector_list = generate_press_vectors_list(test_press, interv_width)
 t0 = time()
 # получаем предсказываемые веса
 # pred = clf.predict(test_press_vector_list)
+
+test_press_vector_list = press_vector_list
+goal_weights = weights
+
 model = classify_keras(1,features_train=press_vector_list,
                labels_train=weights,
                features_test=test_press_vector_list,
                labels_test=goal_weights,
                num_inp=interv_width
                )
+
+# model = classify_keras(1,features_train=press_vector_list,
+#                labels_train=weights,
+#                features_test=press_vector_list,
+#                labels_test=weights,
+#                num_inp=interv_width
+#                )
 print ("pred time:", round(time()-t0, 3), "s")
 
 pred = model.predict(mass_to_nump_mass(test_press_vector_list))

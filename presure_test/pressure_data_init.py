@@ -13,7 +13,7 @@ def generate_init_data(pressures):
 
 def load_pressures(filename):
     flower_dict = list()
-    with open(filename) as f:
+    with open("pressure/" + filename) as f:
         for line in f:
             coord = float(line.split(" ")[0])
             press = float(line.split(" ")[1])
@@ -56,7 +56,7 @@ def generate_press_vectors_list(pressure_list, points_num):
         new_int = list()
         for point in full_int:
             new_int.append(point[1])
-        # normal = normalize_interv(new_int)
+            new_int = normalize_interv(new_int)
         interval_list.append(new_int)
     return interval_list
 

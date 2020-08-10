@@ -44,6 +44,9 @@ model = regression_model()
 # fit the model
 model.fit(predictors_norm, target, validation_split=0.3, epochs=100, verbose=2)
 
+result = model.predict(predictors)
+
+print(result)
 # val  = model.evaluate()
 
 # print(val)

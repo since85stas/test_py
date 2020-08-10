@@ -41,7 +41,7 @@ def create_pressure_plot(pressure_list, plot_name, recreate):
     # plt.axis(0 , 1000, 800, 1000)
     plt.xlabel("time")
     plt.ylabel("press")
-    plt.savefig(plot_name + ".png")
+    plt.savefig("pressure_images/" +plot_name + ".png")
 
     if(recreate):
         plt.close()
