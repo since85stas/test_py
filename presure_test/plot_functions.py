@@ -79,7 +79,7 @@ def create_weight_plot(weight_list, plot_name, recreate):
     # plt.axis(0 , 1000, 800, 1000)
     plt.xlabel("time")
     plt.ylabel("press")
-    plt.savefig(plot_name + ".png")
+    plt.savefig("weights/" + plot_name + ".png")
 
     if (recreate):
         plt.close()
@@ -96,3 +96,7 @@ def create_sin():
 
     # смотри преамбулу
     plt.savefig('pic_1_5_1', fmt='png')
+
+def plot_pred_results(pred, goal_weights, index, jndex):
+    create_weight_plot(goal_weights, "weight" + str(index)+ str(jndex), False)
+    create_weight_plot(pred, "weight" + str(index)+ str(jndex), True)

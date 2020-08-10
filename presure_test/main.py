@@ -69,14 +69,14 @@ press_vector_list = generate_press_vectors_list(all_press, interv_width)
 # получаем вес для каждого интервала - сумма всех ненулевых згачений дождя в интервале
 weights = get_intervals_weights(pressure_interv)
 
-# t0 = time()
-# # обучаем сетку
+
+# обучаем сетку
+t0 = time()
 # clf = classify_svc_lin(press_vector_list, weights)
-# clf = classify_keras_test_csv(press_vector_list, weights)
-# print ("training time:", round(time()-t0, 3), "s")
+print ("training time:", round(time()-t0, 3), "s")
 
 # данные для проверки нейросетки
-test_press = load_pressures("15.07.20 .txt")
+test_press = load_pressures("16.07.20 .txt")
 test_rain = generate_init_data(test_press)
 test_interv = generate_pressure_interv(test_rain, interv_width)
 
@@ -88,34 +88,34 @@ test_press_vector_list = generate_press_vectors_list(test_press, interv_width)
 
 t0 = time()
 # получаем предсказываемые веса
-# pred = clf.predict(test_press_vector_list)
 
-test_press_vector_list = press_vector_list
-goal_weights = weights
+# test_press_vector_list = press_vector_list
+# goal_weights = weights
 
-model = classify_keras(1,features_train=press_vector_list,
-               labels_train=weights,
-               features_test=test_press_vector_list,
-               labels_test=goal_weights,
-               num_inp=interv_width
-               )
-
-# model = classify_keras(1,features_train=press_vector_list,
-#                labels_train=weights,
-#                features_test=press_vector_list,
-#                labels_test=weights,
+# model = classify_keras(1,features_train=mass_to_nump_mass(press_vector_list),
+#                labels_train=mass_to_nump_mass(weights),
+#                features_test=mass_to_nump_mass(test_press_vector_list),
+#                labels_test=mass_to_nump_mass(goal_weights),
 #                num_inp=interv_width
 #                )
+model = test_diff_model_shapes(features_train=mass_to_nump_mass(press_vector_list),
+               labels_train=mass_to_nump_mass(weights),
+               features_test=mass_to_nump_mass(test_press_vector_list),
+               labels_test=mass_to_nump_mass(goal_weights),
+               num_inp=interv_width
+               )
 print ("pred time:", round(time()-t0, 3), "s")
 
-pred = model.predict(mass_to_nump_mass(test_press_vector_list))
+# pred = model.predict(mass_to_nump_mass(test_press_vector_list))
+
+# pred = clf.predict(test_press_vector_list)
 # print(pred)
 # for i in range(0, len(goal_weights)-1):
 #    pred_1 = pred[i]
 #    print("res {} {} {}".format (pred_1[0], pred_1[1], goal_weights[i]))
    # print(str(goal_weights[i]) + " " + str(pred[i]))
 
-create_weight_plot(goal_weights, "weight", False)
-create_weight_plot(pred, "weight", False)
+# create_weight_plot(goal_weights, "weight", False)
+# create_weight_plot(pred, "weight", False)
 # create_sin()
 

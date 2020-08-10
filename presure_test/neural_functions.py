@@ -44,6 +44,6 @@ def get_intervals_weights(interval_list):
     weights = list()
     for i in range(0, len(interval_list)):
         # create_plot(train_interv[i], "interval" + str(i) +".png")
-        weights.append(get_interval_weight_cont(interval_list[i]))
+        weights.append(get_interval_weight(interval_list[i]))
     return weights
 
