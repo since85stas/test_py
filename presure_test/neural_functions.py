@@ -6,7 +6,6 @@ from sklearn import svm
 def classify_svc_lin(features_train, labels_train):
 
     ### create classifier
-    # clf = GaussianNB()
     clf = svm.SVC(kernel="linear")
 
     ### fit the classifier on the training features and labels
@@ -16,7 +15,6 @@ def classify_svc_lin(features_train, labels_train):
 def classify_svc_rbf(features_train, labels_train):
 
     ### create classifier
-    # clf = GaussianNB()
     clf = svm.SVR()
 
     ### fit the classifier on the training features and labels

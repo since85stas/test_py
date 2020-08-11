@@ -56,7 +56,7 @@ def generate_press_vectors_list(pressure_list, points_num):
         new_int = list()
         for point in full_int:
             new_int.append(point[1])
-            # new_int = normalize_interv(new_int)
+            new_int = normalize_interv(new_int)
         interval_list.append(new_int)
     return interval_list
 
@@ -64,5 +64,6 @@ def generate_press_vectors_list(pressure_list, points_num):
 def normalize_interv(intervs):
     first_val = intervs[0]
     for i in range(0, len(intervs)-1):
+        intervs[i] = intervs[i] - first_val;
         intervs[i] = (intervs[i])/1000
     return intervs

@@ -20,17 +20,17 @@ print("init")
 # имена файлов из которых берем информацию для обучения
 files_list = ["16.07.20",
               "17.07.20",
-              "20.07.20",
-              "22.07.20",
-              "27.07.20",
-              "28.07.20",
-              "29.07.20",
-              "30.07.20",
-              "31.07.20",
-              "03.08.20",
-              "04.08.20",
-              "05.08.20",
-              "06.08.20"
+              # "20.07.20",
+              # "22.07.20",
+              # "27.07.20",
+              # "28.07.20",
+              # "29.07.20",
+              # "30.07.20",
+              # "31.07.20",
+              # "03.08.20",
+              # "04.08.20",
+              # "05.08.20",
+              # "06.08.20"
               ]
 all_press = list()
 
@@ -48,7 +48,8 @@ for name in files_list:
    all_press.extend(presure_rain)
 
 # рисуем график всех данных
-# create_plot(all_press, "all_pressure.png")
+create_pressure_plot(all_press, "all_pressure.png", True)
+print("num pressures= {}".format(len(all_press)))
 
 # split = int(0.5*len(presure_rain))
 
