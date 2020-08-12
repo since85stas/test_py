@@ -9,12 +9,12 @@ from presure_test.plot_functions import plot_pred_results
 
 # define classification model
 def classification_model(num_inputs, num_1layer_neur, num_2layer_neur):
-    input_shape = ( 20, 2)
+    input_shape = ( 20 )
 
     # create model
     model = Sequential()
-    model.add(Conv1D(num_inputs, kernel_size=(2), activation='relu', kernel_initializer='he_uniform', input_shape=input_shape))
-    model.add(Conv1D(10, kernel_size=(2),  activation='relu', kernel_initializer='he_uniform', input_shape=input_shape))
+    model.add(Conv1D(filters=20, kernel_size=(3), activation='relu', kernel_initializer='he_uniform', input_shape= (20,1)))
+    # model.add(Conv1D(10, kernel_size=(2),  activation='relu', kernel_initializer='he_uniform', input_shape = input_shape))
     # model.add(Dense(10, activation='sigmoid'))
     # model.add(Dense(num_2layer_neur, activation='relu'))
     # model.add(Dense(num_2layer_neur, activation='relu'))
@@ -43,6 +43,9 @@ def classify_keras(model ,X_train, y_train, X_test, y_test, num_inp):
     #
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
+
+    X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], 1)
+    X_test = X_test.reshape(X_test.shape[0], X_test.shape[1], 1)
     # fit the model
     model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, verbose=2)
 
@@ -51,11 +54,12 @@ def classify_keras(model ,X_train, y_train, X_test, y_test, num_inp):
     # print('Accuracy: {}% \n Error: {}'.format(scores[1], 1 - scores[1]))
     return model
 
-def test_diff_model_shapes(features_train, labels_train, features_test, labels_test, num_inp):
-    for i in range(2,15):
+def test_diff_model_shapes(X_train, y_train, X_test, y_test, num_inp):
+    for i in range(15,16):
         for j in range(50,51):
+            # n_timesteps, n_features, n_outputs = X_train.shape[1], X_train.shape[2], y_train.shape[1]
             model = classification_model(num_inp, i, j)
-            train_model = classify_keras(model, features_train, labels_train, features_test, labels_test, num_inp)
-            pred = train_model.predict(features_test)
-            plot_pred_results(pred, labels_test, i, j)
+            train_model = classify_keras(model, X_train, y_train, X_test, y_test, num_inp)
+            pred = train_model.predict(X_test)
+            plot_pred_results(pred, y_test, i, j)
             print("start "+ str(i) + " " + str(j))

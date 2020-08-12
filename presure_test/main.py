@@ -20,8 +20,8 @@ print("init")
 # имена файлов из которых берем информацию для обучения
 files_list = ["16.07.20",
               "17.07.20",
-              # "20.07.20",
-              # "22.07.20",
+              "20.07.20",
+              "22.07.20"
               # "27.07.20",
               # "28.07.20",
               # "29.07.20",
@@ -99,10 +99,11 @@ t0 = time()
 #                labels_test=mass_to_nump_mass(goal_weights),
 #                num_inp=interv_width
 #                )
-model = test_diff_model_shapes(features_train=mass_to_nump_mass(press_vector_list),
-               labels_train=mass_to_nump_mass(weights),
-               features_test=mass_to_nump_mass(test_press_vector_list),
-               labels_test=mass_to_nump_mass(goal_weights),
+model = test_diff_model_shapes(
+               X_train=mass_to_nump_mass(press_vector_list),
+               y_train=mass_to_nump_mass(weights),
+               X_test=mass_to_nump_mass(test_press_vector_list),
+               y_test=mass_to_nump_mass(goal_weights),
                num_inp=interv_width
                )
 print ("pred time:", round(time()-t0, 3), "s")
