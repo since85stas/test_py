@@ -63,7 +63,7 @@ def generate_press_vectors_list(pressure_list, points_num):
 #  делим на 1000, чтобы получить значения от 0 до 1
 def normalize_interv(intervs):
     first_val = intervs[0]
-    for i in range(0, len(intervs)-1):
-        intervs[i] = intervs[i] - first_val;
+    for i in range(0, len(intervs)):
+        intervs[i] = intervs[i] - first_val
         intervs[i] = (intervs[i])/1000
     return intervs

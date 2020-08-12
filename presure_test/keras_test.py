@@ -2,17 +2,19 @@
 from keras import regularizers
 from keras.regularizers import l2
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Conv1D
 from presure_test.utils import mass_to_nump_mass
 from keras.utils import to_categorical
 from presure_test.plot_functions import plot_pred_results
 
 # define classification model
 def classification_model(num_inputs, num_1layer_neur, num_2layer_neur):
+    input_shape = ( 20, 2)
+
     # create model
     model = Sequential()
-    model.add(Dense(num_inputs, activation='sigmoid'))
-    model.add(Dense(num_1layer_neur, activation='relu'))
+    model.add(Conv1D(num_inputs, kernel_size=(2), activation='relu', kernel_initializer='he_uniform', input_shape=input_shape))
+    model.add(Conv1D(10, kernel_size=(2),  activation='relu', kernel_initializer='he_uniform', input_shape=input_shape))
     # model.add(Dense(10, activation='sigmoid'))
     # model.add(Dense(num_2layer_neur, activation='relu'))
     # model.add(Dense(num_2layer_neur, activation='relu'))
