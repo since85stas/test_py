@@ -1,8 +1,8 @@
 from time import time
 
-from presure_test.plot_functions import  create_pressure_plot, create_sin, create_weight_plot
+from presure_test.plot_functions import  create_pressure_plot, create_sin, create_weight_plot, create_interv_plot
 from presure_test.pressure_data_init import load_pressures, generate_pressure_interv,\
-   generate_press_vectors_list, generate_init_data
+   generate_press_vectors_list, generate_init_data, load_group
 from presure_test.neural_functions import get_interval_weight, get_intervals_weights,classify_svc_lin
 from presure_test.keras_test import classify_keras_test_csv, classify_keras, test_diff_model_shapes
 from  presure_test.utils import mass_to_nump_mass
@@ -21,11 +21,11 @@ print("init")
 files_list = ["16.07.20",
               "17.07.20",
               "20.07.20",
-              "22.07.20",
-              "27.07.20",
-              "28.07.20",
-              "29.07.20",
-              "30.07.20",
+              # "22.07.20",
+              # "27.07.20",
+              # "28.07.20",
+              # "29.07.20",
+              # "30.07.20",
               # "31.07.20",
               # "03.08.20",
               # "04.08.20",
@@ -60,8 +60,15 @@ interv_width = 20
 pressure_interv = generate_pressure_interv(all_press, interv_width)
 
 # генерируем интервалы для обучения только из давлений
-press_vector_list = generate_press_vectors_list(all_press, interv_width)
+# press_vector_list = generate_press_vectors_list(all_press, interv_width)
+press_vector_list = load_group(all_press, interv_width)
 
+count = 0
+for i in (0,10):
+    interv = press_vector_list[i]
+    name = "interv"
+    create_interv_plot(interv, name, False)
+    count = count + 1
 # weights = list()
 # for i in range(0, len(pressure_interv)):
 #    # create_plot(train_interv[i], "interval" + str(i) +".png", True)
@@ -85,7 +92,8 @@ test_interv = generate_pressure_interv(test_rain, interv_width)
 goal_weights = get_intervals_weights(test_interv)
 
 # генерируем интервалы только из давлений для предсказания
-test_press_vector_list = generate_press_vectors_list(test_press, interv_width)
+# test_press_vector_list = generate_press_vectors_list(test_press, interv_width)
+test_press_vector_list = load_group(test_press, interv_width)
 
 t0 = time()
 # получаем предсказываемые веса
@@ -99,11 +107,18 @@ t0 = time()
 #                labels_test=mass_to_nump_mass(goal_weights),
 #                num_inp=interv_width
 #                )
+# model = test_diff_model_shapes(
+#                X_train=mass_to_nump_mass(press_vector_list),
+#                y_train=mass_to_nump_mass(weights),
+#                X_test=mass_to_nump_mass(test_press_vector_list),
+#                y_test=mass_to_nump_mass(goal_weights),
+#                num_inp=interv_width
+#                )
 model = test_diff_model_shapes(
-               X_train=mass_to_nump_mass(press_vector_list),
-               y_train=mass_to_nump_mass(weights),
-               X_test=mass_to_nump_mass(test_press_vector_list),
-               y_test=mass_to_nump_mass(goal_weights),
+               X_train=(press_vector_list),
+               y_train=(weights),
+               X_test=(test_press_vector_list),
+               y_test=(goal_weights),
                num_inp=interv_width
                )
 print ("pred time:", round(time()-t0, 3), "s")

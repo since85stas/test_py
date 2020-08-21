@@ -5,7 +5,7 @@ from keras.regularizers import l2
 from keras.models import Sequential
 from keras.layers import Dense, Conv1D, Conv2D, Dropout, MaxPooling1D, Flatten
 
-load_dataset()
+
 
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):
@@ -25,3 +25,9 @@ def evaluate_model(trainX, trainy, testX, testy):
 	# evaluate model
 	_, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
 	return accuracy
+
+trainX, trainy, testX, testy = load_dataset()
+
+acc = evaluate_model(trainX, trainy, testX, testy)
+
+print(acc)

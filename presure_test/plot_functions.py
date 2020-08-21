@@ -100,3 +100,22 @@ def create_sin():
 def plot_pred_results(pred, goal_weights, index, jndex):
     create_weight_plot(goal_weights, "weight" + str(index)+ str(jndex), False)
     create_weight_plot(pred, "weight" + str(index)+ str(jndex), True)
+
+def create_interv_plot(interval, plot_name, recreate):
+    x = list()
+    y = list()
+    for i in range(0, len(interval)):
+        x.append(0 + (1/len(interval))*i)
+        y.append(interval[i][0])
+    plt.plot(x,y)
+    plt.minorticks_on()
+    plt.grid(True, "major")
+    plt.grid(True, which='minor', color='grey', linestyle='dashed', alpha=0.5)
+    # plt.gca(x_min = 0, x_max = 20, y_min = 800, y_max = 1000)
+    # plt.axis(0 , 1000, 800, 1000)
+    plt.xlabel("time")
+    plt.ylabel("press")
+    plt.savefig("intervals/" +plot_name + ".png")
+
+    if(recreate):
+        plt.close()

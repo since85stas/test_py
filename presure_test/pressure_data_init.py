@@ -1,5 +1,7 @@
 
 # function that creates a flower_dictionary from filename
+from numpy import dstack
+
 
 def generate_init_data(pressures):
 
@@ -54,9 +56,12 @@ def generate_press_vectors_list(pressure_list, points_num):
     for i in range (0, len(pressure_list) - points_num):
         full_int = pressure_list[i:i+points_num]
         new_int = list()
+        first_val = full_int[0]
         for point in full_int:
-            new_int.append(point[1])
-            new_int = normalize_interv(new_int)
+            # new_int.append(point[1])
+            new_int.append(point[1]/1000.)
+            # new_int = normalize_interv(new_int)
+            # new_int = normalize_interv(new_int)
         interval_list.append(new_int)
     return interval_list
 
@@ -64,6 +69,16 @@ def generate_press_vectors_list(pressure_list, points_num):
 def normalize_interv(intervs):
     first_val = intervs[0]
     for i in range(0, len(intervs)):
-        intervs[i] = intervs[i] - first_val
-        intervs[i] = (intervs[i])/1000
+        # intervs[i] = intervs[i] - first_val
+        intervs[i] = (intervs[i])/1000.
     return intervs
+
+# load a list of files into a 3D array of [samples, timesteps, features]
+def load_group(pressure_list, points_num):
+	loaded = list()
+	for i in (0,2):
+		data = generate_press_vectors_list(pressure_list, points_num)
+		loaded.append(data)
+	# stack group so that features are the 3rd dimension
+	loaded = dstack(loaded)
+	return loaded
