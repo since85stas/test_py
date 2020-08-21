@@ -2,21 +2,24 @@
 from keras import regularizers
 from keras.regularizers import l2
 from keras.models import Sequential
-from keras.layers import Dense, Conv1D, Conv2D
+from keras.layers import Dense, Conv1D, Conv2D, Dropout
 from presure_test.utils import mass_to_nump_mass
 from keras.utils import to_categorical
 from presure_test.plot_functions import plot_pred_results
 
 # define classification model
-def classification_model(num_inputs, num_1layer_neur, num_2layer_neur):
+def classification_model_conv(num_inputs, num_1layer_neur, num_2layer_neur):
     input_shape = ( 20 )
 
     # create model
     model = Sequential()
-    model.add(Conv1D(filters=20, kernel_size=1, batch_size=2, activation='relu',
-                     kernel_initializer='he_uniform', input_shape= (481,20)))
-    # model.add(Conv1D(10, kernel_size=(2),  activation='relu', kernel_initializer='he_uniform', input_shape = input_shape))
-    model.add(Dense(10, activation='relu'))
+    model.add(Conv1D(filters=num_1layer_neur, kernel_size=1, batch_size=2, activation='relu',
+                     kernel_initializer='he_uniform', input_shape= (1017,20)))
+    model.add(Dropout(0.25))
+    model.add(Conv1D(32, kernel_size=(1),  activation='relu'))
+    model.add(Dropout(0.25))
+    model.add(Dense(50, activation='relu'))
+    model.add(Dropout(0.25))
     # model.add(Dense(num_2layer_neur, activation='relu'))
     # model.add(Dense(num_2layer_neur, activation='relu'))
     model.add(Dense(2, activation='softmax')) #, kernel_regularizer=regularizers.l2(0.01)
@@ -46,7 +49,7 @@ def classify_keras(model ,X_train, y_train, X_test, y_test, num_inp):
     #
 
     # fit the model
-    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=5, verbose=2)
+    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=10, verbose=2)
 
     # evaluate the model
     # scores = model.evaluate(X_test, y_test, verbose=0)
@@ -60,11 +63,13 @@ def test_diff_model_shapes(X_train, y_train, X_test, y_test, num_inp):
     X_train = X_train.reshape( 2, int(X_train.shape[0]/2), X_train.shape[1])
     y_train = y_train.reshape(2, int(y_train.shape[0]/2), y_train.shape[1])
     X_test = X_test.reshape(X_test.shape[0], X_test.shape[1])
-    for i in range(15,16):
+    for i in range(10,11):
         for j in range(50,51):
             # n_timesteps, n_features, n_outputs = X_train.shape[1], X_train.shape[2], y_train.shape[1]
-            model = classification_model(num_inp, i, j)
+            model = classification_model_conv(num_inp, i, j)
             train_model = classify_keras(model, X_train, y_train, X_train, y_train, num_inp)
             pred = train_model.predict(X_train)
-            plot_pred_results(pred, y_test, i, j)
+
+            pred = pred[0]
+            plot_pred_results(pred, y_train[0], i, j)
             print("start "+ str(i) + " " + str(j))
