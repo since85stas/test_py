@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Sample configuration
-num_samples = 100000
+num_samples = 1000
 
 # Intrasample configuration
 num_elements = 1
@@ -26,7 +26,8 @@ for j in range(0, num_samples):
   # Generate wave
   for i in range(starting_point, total_num_elements):
     x_val = i * interval_per_element
-    y_val = x_val * x_val
+    # y_val = x_val * x_val
+    y_val = x_val
     xs.append(x_val)
     ys.append(y_val)
   # Append wave to samples
@@ -39,7 +40,7 @@ for j in range(0, num_samples):
 print(np.shape(np.array(samples[0][0])))
 
 # Save data to file for re-use
-np.save('./signal_waves_medium.npy', samples)
+np.save('signal_waves_linear.npy', samples)
 
 # Visualize a few random samples
 for i in range(0, num_samples_visualize):

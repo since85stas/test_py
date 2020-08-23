@@ -6,7 +6,7 @@ num_samples_visualize = 1
 noise_factor = 0.05
 
 # Load data
-data = np.load('./signal_waves_medium.npy')
+data = np.load('signal_waves_linear.npy')
 x_val, y_val = data[:, 0], data[:, 1]
 
 # Add noise to data
