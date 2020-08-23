@@ -21,16 +21,16 @@ print("init")
 files_list = ["16.07.20",
               "17.07.20",
               "20.07.20",
-              # "22.07.20",
-              # "27.07.20",
-              # "28.07.20",
-              # "29.07.20",
-              # "30.07.20",
-              # "31.07.20",
-              # "03.08.20",
-              # "04.08.20",
-              # "05.08.20",
-              # "06.08.20"
+              "22.07.20",
+              "27.07.20",
+              "28.07.20",
+              "29.07.20",
+              "30.07.20",
+              "31.07.20",
+              "03.08.20",
+              "04.08.20",
+              "05.08.20",
+              "06.08.20"
               ]
 all_press = list()
 
@@ -63,12 +63,9 @@ pressure_interv = generate_pressure_interv(all_press, interv_width)
 # press_vector_list = generate_press_vectors_list(all_press, interv_width)
 press_vector_list = load_group(all_press, interv_width)
 
-count = 0
-for i in (0,10):
-    interv = press_vector_list[i]
-    name = "interv"
-    create_interv_plot(interv, name, False)
-    count = count + 1
+cut = press_vector_list[ 70:72, : , :]
+create_interv_plot(cut, "intervs", True)
+
 # weights = list()
 # for i in range(0, len(pressure_interv)):
 #    # create_plot(train_interv[i], "interval" + str(i) +".png", True)

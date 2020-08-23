@@ -101,13 +101,15 @@ def plot_pred_results(pred, goal_weights, index, jndex):
     create_weight_plot(goal_weights, "weight" + str(index)+ str(jndex), False)
     create_weight_plot(pred, "weight" + str(index)+ str(jndex), True)
 
-def create_interv_plot(interval, plot_name, recreate):
+def create_interv_plot(intervals, plot_name, recreate):
     x = list()
     y = list()
-    for i in range(0, len(interval)):
-        x.append(0 + (1/len(interval))*i)
-        y.append(interval[i][0])
-    plt.plot(x,y)
+    for interval in intervals:
+        for i in range(0, len(interval)):
+            x.append(0 + (1/len(interval))*i)
+            y.append(interval[i][0])
+        plt.plot(x,y)
+
     plt.minorticks_on()
     plt.grid(True, "major")
     plt.grid(True, which='minor', color='grey', linestyle='dashed', alpha=0.5)

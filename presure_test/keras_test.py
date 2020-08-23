@@ -49,7 +49,7 @@ def classify_keras(model ,X_train, y_train, X_test, y_test, num_inp):
     #
 
     # fit the model
-    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=1, verbose=2, batch_size=10)
+    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=10, verbose=2, batch_size=450)
 
     # evaluate the model
     # scores = model.evaluate(X_test, y_test, verbose=0)
