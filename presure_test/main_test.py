@@ -5,10 +5,7 @@ import numpy as np
 from keras import Sequential
 from keras.layers import Conv1D, Dropout, MaxPooling1D, Flatten, Dense
 from keras.utils import to_categorical
-
 from presure_test.pressure_data_linear import generate_linear_vectors_list, generate_nonlin_vectors_list
-
-
 
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):
@@ -51,7 +48,7 @@ def evaluate_model_dense(trainX, trainy, testX, testy):
     return accuracy
 
 # ширина рассматриваемого интервала в записях
-interv_width = 20
+interval_width = 20
 
 # Load data
 data = np.load('./signal_waves_medium.npy')
@@ -67,7 +64,7 @@ x_lin, y_lin = data_lin[:, 0], data_lin[:, 1]
 y_lin_test = data_lin[0:100, 1]
 
 weigts_lin = np.full(data_lin.shape[0], 0)
-weigts_lin_test = np.full(100,0)
+weigts_lin_test = np.full(100, 0)
 
 all_vectors = np.concatenate((y_val, y_lin), 0)
 all_vectors_test = np.concatenate((y_test, y_lin_test), 0)
@@ -75,6 +72,6 @@ all_vectors_test = np.concatenate((y_test, y_lin_test), 0)
 all_weights = np.concatenate((weigts, weigts_lin), 0)
 all_weights_test = np.concatenate((weigts_test, weigts_lin_test),0)
 
-evaluate_model_dense(all_vectors, to_categorical(all_weights),(all_vectors_test), to_categorical(all_weights_test))
+evaluate_model_dense(all_vectors, to_categorical(all_weights), all_vectors_test, to_categorical(all_weights_test))
 
 print("")
