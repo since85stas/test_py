@@ -19,7 +19,7 @@ max_norm_value = 2.0
 # Load data
 data_noisy = np.load('./signal_waves_noisy_medium.npy')
 x_val_noisy, y_val_noisy = data_noisy[:,0], data_noisy[:,1]
-data_pure = np.load('./signal_waves_medium.npy')
+data_pure = np.load('signal_waves_linear.npy')
 x_val_pure, y_val_pure = data_pure[:,0], data_pure[:,1]
 
 # Reshape data

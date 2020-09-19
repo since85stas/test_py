@@ -2,26 +2,32 @@
 from keras import regularizers
 from keras.regularizers import l2
 from keras.models import Sequential
-from keras.layers import Dense, Conv1D
+from keras.layers import Dense, Conv1D, Conv2D, Dropout, MaxPooling1D, Flatten
 from presure_test.utils import mass_to_nump_mass
 from keras.utils import to_categorical
 from presure_test.plot_functions import plot_pred_results
 
 # define classification model
-def classification_model(num_inputs, num_1layer_neur, num_2layer_neur):
-    input_shape = ( 20, 2)
-
+def classification_model_conv(num_inputs, n_timesteps, n_features, n_outputs, num_1layer_neur, num_2layer_neur):
+    input_shape = ( 20 )
+    # n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
     # create model
     model = Sequential()
-    model.add(Conv1D(num_inputs, kernel_size=(2), activation='relu', kernel_initializer='he_uniform', input_shape=input_shape))
-    model.add(Conv1D(10, kernel_size=(2),  activation='relu', kernel_initializer='he_uniform', input_shape=input_shape))
-    # model.add(Dense(10, activation='sigmoid'))
-    # model.add(Dense(num_2layer_neur, activation='relu'))
-    # model.add(Dense(num_2layer_neur, activation='relu'))
-    model.add(Dense(2, activation='softmax')) #, kernel_regularizer=regularizers.l2(0.01)
+    # n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
+    model = Sequential()
+    model.add(Conv1D(filters=64, kernel_size=3, activation='relu', input_shape=(n_timesteps, n_features)))
+    model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(MaxPooling1D(pool_size=2))
+    model.add(Flatten())
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(n_outputs, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     # compile model
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    model.summary()
     return model
 
 def classify_keras_test_csv(features_train, labels_train):
@@ -41,21 +47,30 @@ def classify_keras_test_csv(features_train, labels_train):
 def classify_keras(model ,X_train, y_train, X_test, y_test, num_inp):
     # model = classification_model(num_inp,15,15)
     #
-    y_train = to_categorical(y_train)
-    y_test = to_categorical(y_test)
+
     # fit the model
-    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, verbose=2)
+    model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=10, verbose=2, batch_size=450)
 
     # evaluate the model
     # scores = model.evaluate(X_test, y_test, verbose=0)
     # print('Accuracy: {}% \n Error: {}'.format(scores[1], 1 - scores[1]))
     return model
 
-def test_diff_model_shapes(features_train, labels_train, features_test, labels_test, num_inp):
-    for i in range(2,15):
+def test_diff_model_shapes(X_train, y_train, X_test, y_test, num_inp):
+    y_train = to_categorical(y_train)
+    y_test = to_categorical(y_test)
+
+    # X_train = X_train.reshape( int(X_train.shape[0]), X_train.shape[1], 1)
+    # y_train = y_train.reshape(int(y_train.shape[0]), y_train.shape[1])
+    n_timesteps, n_features, n_outputs = X_train.shape[1], X_train.shape[2], y_train.shape[1]
+    # X_test = X_test.reshape(X_test.shape[0], X_test.shape[1])
+    for i in range(10,11):
         for j in range(50,51):
-            model = classification_model(num_inp, i, j)
-            train_model = classify_keras(model, features_train, labels_train, features_test, labels_test, num_inp)
-            pred = train_model.predict(features_test)
-            plot_pred_results(pred, labels_test, i, j)
+            # n_timesteps, n_features, n_outputs = X_train.shape[1], X_train.shape[2], y_train.shape[1]
+            model = classification_model_conv(num_inp, n_timesteps, n_features, n_outputs, i, j)
+            train_model = classify_keras(model, X_train, y_train, X_train, y_train, num_inp)
+            pred = train_model.predict(X_test)
+
+            pred = pred[0]
+            plot_pred_results(pred, y_train[0], i, j)
             print("start "+ str(i) + " " + str(j))
