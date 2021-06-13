@@ -23,10 +23,11 @@ def create_pressure_plot(pressure_list, plot_name, recreate):
 
     for pressure in pressure_list:
         if (pressure[2] != 0):
-            if (pressure[2] == 1):
-                plt.scatter(pressure[0], pressure[1], color= "r", s=8)
-            elif (pressure[2] == -1):
-                plt.scatter(pressure[0], pressure[1], color="g", s=8)
+            plt.scatter(pressure[0], pressure[1], color="r", s=8)
+            # if (pressure[2] == 1):
+            #     plt.scatter(pressure[0], pressure[1], color= "r", s=8)
+            # elif (pressure[2] == -1):
+            #     plt.scatter(pressure[0], pressure[1], color="g", s=8)
     # (fig, ax) = plt.subplots()
     # ax = fig.add_subplot("111")
 
@@ -41,7 +42,7 @@ def create_pressure_plot(pressure_list, plot_name, recreate):
     # plt.axis(0 , 1000, 800, 1000)
     plt.xlabel("time")
     plt.ylabel("press")
-    plt.savefig("pressure_images/" +plot_name + ".png")
+    plt.savefig("pressure_images_slip/" +plot_name + ".png")
 
     if(recreate):
         plt.close()
