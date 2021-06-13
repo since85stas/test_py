@@ -45,7 +45,7 @@ def countWords(words):
                 keys[i] = keys[j]
                 keys[j] = tmpK
 
-# самый первый тест один раз сортируем
+# самый первый тест один раз сортируем, для сортировки взял не весь текст иначе очень уж долго получалось
 def sortOneTime():
     start =  int(time() * 1000)
     words = readFile("prep_text_part.txt")
